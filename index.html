@@ -1,95 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brand - Premium Experience</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #6366f1;
-            --secondary: #a855f7;
-            --dark: #0f172a;
-            --light: #f8fafc;
-            --glass: rgba(255, 255, 255, 0.1);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Outfit', sans-serif;
-        }
-
-        body {
-            background-color: var(--dark);
-            color: var(--light);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            background: radial-gradient(circle at top right, #1e293b, #0f172a);
-        }
-
-        .container {
-            text-align: center;
-            padding: 3rem;
-            border-radius: 2rem;
-            background: var(--glass);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            animation: fadeIn 1.2s ease-out;
-        }
-
-        h1 {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(to right, #818cf8, #c084fc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 600;
-        }
-
-        p {
-            font-size: 1.2rem;
-            color: #94a3b8;
-            margin-bottom: 2rem;
-        }
-
-        .btn {
-            padding: 1rem 2.5rem;
-            font-size: 1rem;
-            font-weight: 600;
-            color: white;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            border: none;
-            border-radius: 9999px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.5);
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
+    <meta name="description" content="Brand - A premium and modern experience tailored for visual excellence.">
+    <title>Brand | Premium Modern Experience</title>
+    <link rel="stylesheet" href="index.css">
 </head>
+
 <body>
-    <div class="container">
-        <h1>Brand Project</h1>
-        <p>Premium experience is coming soon.</p>
-        <a href="#" class="btn">Learn More</a>
-    </div>
+    <header>
+        <div class="container" style="display: flex; width: 100%; justify-content: space-between; align-items:center;">
+            <a href="#" class="logo">BRAND<span>.</span></a>
+            <nav>
+                <a href="#features">Features</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+            </nav>
+            <a href="#" class="btn btn-outline" style="padding: 0.5rem 1.5rem;">Launch App</a>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="badge floating">Next Generation Experience</div>
+                <h1 class="gradient-text">Elevate Your Visual Identity with Brand</h1>
+                <p>We craft high-end digital experiences that define the future. Modern components, seamless
+                    interactions, and stunning aesthetics.</p>
+                <div style="display: flex; gap: 1rem; justify-content: center;">
+                    <a href="#" class="btn btn-primary">Get Started Now</a>
+                    <a href="#" class="btn btn-outline">View Showcase</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" style="padding: 4rem 0;">
+            <div class="container">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                    <div class="glass-card">
+                        <h3>Dynamic Design</h3>
+                        <p style="margin-top: 1rem;">Fluid layouts that adapt to any screen size with grace and
+                            precision.</p>
+                    </div>
+                    <div class="glass-card">
+                        <h3>Premium Assets</h3>
+                        <p style="margin-top: 1rem;">AI-generated visuals that capture the essence of your professional
+                            brand.</p>
+                    </div>
+                    <div class="glass-card">
+                        <h3>Seamless Flow</h3>
+                        <p style="margin-top: 1rem;">Micro-interactions designed to guide the user naturally through
+                            their journey.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer style="padding: 4rem 0; text-align: center; border-top: 1px solid var(--glass-border);">
+        <div class="container">
+            <p>&copy; 2026 Brand Project. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll Reveal Animation
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = "1";
+                    entry.target.style.transform = "translateY(0)";
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.glass-card, .hero > .container > *').forEach(el => {
+            el.style.opacity = "0";
+            el.style.transform = "translateY(30px)";
+            el.style.transition = "all 0.8s cubic-bezier(0.4, 0, 0.2, 1)";
+            observer.observe(el);
+        });
+
+        // Logo Hover Effect
+        const logo = document.querySelector('.logo');
+        logo.addEventListener('mouseover', () => {
+            logo.style.filter = "brightness(1.5)";
+        });
+        logo.addEventListener('mouseleave', () => {
+            logo.style.filter = "none";
+        });
+    </script>
 </body>
+
 </html>
