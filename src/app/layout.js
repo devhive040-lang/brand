@@ -1,5 +1,7 @@
 import './globals.css';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
+import { BrandProvider } from '@/components/providers/BrandProvider';
+import { AIProvider } from '@/components/providers/AIProvider';
 
 export const metadata = {
   title: 'Brand AI — Smart Business Intelligence Platform',
@@ -11,7 +13,11 @@ export default function RootLayout({ children }) {
     <html lang="en" data-theme="dark" suppressHydrationWarning>
       <body>
         <ThemeProvider>
-          {children}
+          <AIProvider>
+            <BrandProvider>
+              {children}
+            </BrandProvider>
+          </AIProvider>
         </ThemeProvider>
       </body>
     </html>

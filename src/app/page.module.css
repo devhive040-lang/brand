@@ -273,7 +273,7 @@
   border-radius: var(--radius-lg);
   padding: var(--space-4);
   display: flex;
-  alignment: center;
+  align-items: center;
   gap: var(--space-3);
 }
 

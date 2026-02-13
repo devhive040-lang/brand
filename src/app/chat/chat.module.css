@@ -1,0 +1,199 @@
+.chatContainer {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - var(--topbar-height) - 4rem);
+    position: relative;
+    z-index: 1;
+}
+
+.messagesArea {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--space-4) 0;
+}
+
+.emptyState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    gap: var(--space-4);
+}
+
+.emptyIcon {
+    font-size: 4rem;
+}
+
+.emptyState h2 {
+    font-size: var(--font-3xl);
+}
+
+.emptyState>p {
+    color: var(--text-secondary);
+    max-width: 400px;
+}
+
+.suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    justify-content: center;
+    margin-top: var(--space-4);
+}
+
+.suggestionBtn {
+    padding: var(--space-2) var(--space-4);
+    background: var(--bg-glass);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-full);
+    color: var(--text-secondary);
+    font-size: var(--font-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.suggestionBtn:hover {
+    background: var(--bg-glass-hover);
+    border-color: var(--brand-primary);
+    color: var(--text-primary);
+}
+
+/* Messages */
+.message {
+    display: flex;
+    gap: var(--space-3);
+    padding: var(--space-4) var(--space-2);
+    border-radius: var(--radius-lg);
+    transition: background var(--transition-fast);
+    max-width: 85%;
+}
+
+.message.user {
+    margin-left: auto;
+    flex-direction: row-reverse;
+}
+
+.message.assistant {
+    margin-right: auto;
+}
+
+.message.error .msgContent {
+    color: var(--error);
+}
+
+.msgAvatar {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-full);
+    background: var(--bg-elevated);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-lg);
+    flex-shrink: 0;
+}
+
+.message.assistant .msgAvatar {
+    background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+}
+
+.msgContent {
+    flex: 1;
+    min-width: 0;
+}
+
+.msgRole {
+    font-size: var(--font-xs);
+    font-weight: 600;
+    color: var(--text-tertiary);
+    margin-bottom: 4px;
+}
+
+.message.user .msgRole {
+    text-align: right;
+}
+
+.msgText {
+    font-size: var(--font-base);
+    line-height: 1.7;
+    color: var(--text-primary);
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.message.user .msgText {
+    background: var(--bg-glass);
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-subtle);
+}
+
+/* Input */
+.inputArea {
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--border-subtle);
+}
+
+.inputWrapper {
+    display: flex;
+    gap: var(--space-2);
+    background: var(--bg-glass);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-xl);
+    padding: var(--space-3) var(--space-4);
+    transition: all var(--transition-fast);
+}
+
+.inputWrapper:focus-within {
+    border-color: var(--brand-primary);
+    box-shadow: 0 0 0 3px var(--glow-primary);
+}
+
+.input {
+    flex: 1;
+    resize: none;
+    color: var(--text-primary);
+    font-size: var(--font-base);
+    line-height: 1.5;
+    max-height: 120px;
+    overflow-y: auto;
+}
+
+.input::placeholder {
+    color: var(--text-tertiary);
+}
+
+.sendBtn {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-full);
+    background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+    color: white;
+    font-size: var(--font-xl);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all var(--transition-fast);
+    align-self: flex-end;
+}
+
+.sendBtn:hover:not(:disabled) {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-glow);
+}
+
+.sendBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.inputMeta {
+    display: flex;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-2);
+    font-size: var(--font-xs);
+    color: var(--text-tertiary);
+}

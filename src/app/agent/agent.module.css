@@ -1,0 +1,227 @@
+.page {
+    position: relative;
+    z-index: 1;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-6);
+}
+
+.title {
+    font-size: var(--font-2xl);
+    font-weight: 700;
+}
+
+.subtitle {
+    color: var(--text-secondary);
+    margin-top: 4px;
+}
+
+.statusBadge {
+    font-size: var(--font-sm);
+    font-weight: 600;
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+    background: var(--bg-glass);
+    border: 1px solid var(--border-default);
+}
+
+.idle {
+    color: var(--success);
+}
+
+.thinking {
+    color: var(--brand-primary-light);
+}
+
+.executing {
+    color: var(--warning);
+}
+
+.done {
+    color: var(--success);
+}
+
+.error {
+    color: var(--error);
+}
+
+.capabilities {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: var(--space-3);
+    margin-bottom: var(--space-6);
+}
+
+.capCard {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3);
+    background: var(--bg-glass);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.capCard:hover {
+    border-color: var(--brand-primary);
+    transform: translateY(-2px);
+}
+
+.capIcon {
+    font-size: var(--font-xl);
+}
+
+.capLabel {
+    font-size: var(--font-xs);
+    font-weight: 600;
+}
+
+.inputArea {
+    margin-bottom: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.taskInput {
+    width: 100%;
+    padding: var(--space-4);
+    background: var(--bg-glass);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-xl);
+    color: var(--text-primary);
+    font-size: var(--font-base);
+    resize: vertical;
+}
+
+.taskInput:focus {
+    border-color: var(--brand-primary);
+    outline: none;
+    box-shadow: 0 0 0 3px var(--glow-primary);
+}
+
+.taskInput:disabled {
+    opacity: 0.6;
+}
+
+.executeBtn {
+    align-self: flex-start;
+    padding: var(--space-3) var(--space-6);
+    background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+    color: white;
+    border-radius: var(--radius-lg);
+    font-weight: 700;
+    font-size: var(--font-base);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.executeBtn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-glow);
+}
+
+.executeBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.stepsPanel {
+    background: var(--bg-glass);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-xl);
+    padding: var(--space-5);
+    margin-bottom: var(--space-4);
+}
+
+.stepsPanel h3 {
+    font-size: var(--font-base);
+    font-weight: 600;
+    margin-bottom: var(--space-3);
+}
+
+.stepsList {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.step {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-2);
+    font-size: var(--font-sm);
+    padding: var(--space-2);
+    border-radius: var(--radius-md);
+}
+
+.step.done {
+    color: var(--success);
+}
+
+.step.active {
+    color: var(--brand-primary-light);
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.stepIcon {
+    flex-shrink: 0;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.resultPanel {
+    background: var(--bg-glass);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-xl);
+    padding: var(--space-5);
+}
+
+.resultPanel h3 {
+    font-size: var(--font-base);
+    font-weight: 600;
+    margin-bottom: var(--space-3);
+}
+
+.resultContent {
+    font-size: var(--font-sm);
+    line-height: 1.7;
+    color: var(--text-primary);
+    white-space: pre-wrap;
+}
+
+.empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 60vh;
+    gap: var(--space-4);
+    text-align: center;
+}
+
+.emptyIcon {
+    font-size: 4rem;
+}
+
+.empty h2 {
+    font-size: var(--font-2xl);
+}

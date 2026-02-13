@@ -1,0 +1,301 @@
+.page {
+    position: relative;
+    z-index: 1;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-6);
+}
+
+.title {
+    font-size: var(--font-2xl);
+    font-weight: 700;
+}
+
+.subtitle {
+    color: var(--text-secondary);
+    margin-top: 4px;
+}
+
+.headerActions {
+    display: flex;
+    gap: var(--space-3);
+}
+
+.btnPrimary {
+    padding: var(--space-2) var(--space-5);
+    background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+    color: white;
+    border-radius: var(--radius-lg);
+    font-weight: 600;
+    font-size: var(--font-sm);
+    transition: all var(--transition-fast);
+}
+
+.btnPrimary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-glow);
+}
+
+/* Tabs */
+.tabs {
+    display: flex;
+    gap: var(--space-2);
+    margin-bottom: var(--space-6);
+    border-bottom: 1px solid var(--border-subtle);
+    padding-bottom: var(--space-2);
+}
+
+.tab {
+    padding: var(--space-2) var(--space-4);
+    color: var(--text-secondary);
+    font-size: var(--font-sm);
+    font-weight: 500;
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+    cursor: pointer;
+}
+
+.tab:hover {
+    color: var(--text-primary);
+    background: var(--bg-glass);
+}
+
+.activeTab {
+    color: var(--brand-primary-light);
+    background: var(--bg-glass);
+    border-bottom: 2px solid var(--brand-primary);
+}
+
+/* Grid */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--space-6);
+}
+
+/* Cards */
+.card {
+    background: var(--bg-glass);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+}
+
+.cardTitle {
+    font-size: var(--font-lg);
+    font-weight: 600;
+    margin-bottom: var(--space-2);
+}
+
+.cardDesc {
+    color: var(--text-secondary);
+    font-size: var(--font-sm);
+    margin-bottom: var(--space-4);
+}
+
+/* Form */
+.formGroup {
+    margin-bottom: var(--space-4);
+}
+
+.formGroup label {
+    display: block;
+    font-size: var(--font-sm);
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-1);
+}
+
+.formGroup input,
+.formGroup textarea,
+.formGroup select {
+    width: 100%;
+    padding: var(--space-2) var(--space-3);
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-size: var(--font-sm);
+    transition: all var(--transition-fast);
+}
+
+.formGroup input:focus,
+.formGroup textarea:focus,
+.formGroup select:focus {
+    border-color: var(--brand-primary);
+    box-shadow: 0 0 0 3px var(--glow-primary);
+    outline: none;
+}
+
+.formGroup input:disabled,
+.formGroup textarea:disabled,
+.formGroup select:disabled {
+    opacity: 0.7;
+    cursor: default;
+}
+
+/* Logo */
+.logoArea {
+    width: 120px;
+    height: 120px;
+    border: 2px dashed var(--border-default);
+    border-radius: var(--radius-xl);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    overflow: hidden;
+}
+
+.logoArea:hover {
+    border-color: var(--brand-primary);
+}
+
+.logoImg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.logoPlaceholder {
+    text-align: center;
+    color: var(--text-tertiary);
+}
+
+.logoPlaceholder span {
+    font-size: 2rem;
+}
+
+.logoPlaceholder p {
+    font-size: var(--font-xs);
+    margin-top: 4px;
+}
+
+/* Colors */
+.palettes {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.paletteRow {
+    display: flex;
+    gap: var(--space-2);
+}
+
+.colorSwatch {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    border: 2px solid transparent;
+}
+
+.colorSwatch:hover {
+    transform: scale(1.15);
+}
+
+.colorSwatch.selected {
+    border-color: white;
+    box-shadow: 0 0 0 2px var(--brand-primary);
+    transform: scale(1.1);
+}
+
+.selectedColors {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+    flex-wrap: wrap;
+}
+
+.selectedColors p {
+    font-size: var(--font-sm);
+    color: var(--text-secondary);
+}
+
+.colorTag {
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    color: white;
+    font-size: var(--font-xs);
+    font-weight: 600;
+}
+
+/* Fonts */
+.fontsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: var(--space-2);
+}
+
+.fontCard {
+    padding: var(--space-3);
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    text-align: center;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.fontCard:hover {
+    border-color: var(--brand-primary);
+}
+
+.selectedFont {
+    border-color: var(--brand-primary);
+    background: var(--glow-primary);
+}
+
+.fontPreview {
+    font-size: var(--font-sm);
+}
+
+/* Tones */
+.tonesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: var(--space-2);
+}
+
+.toneCard {
+    padding: var(--space-3);
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    text-align: center;
+    cursor: pointer;
+    font-size: var(--font-sm);
+    transition: all var(--transition-fast);
+}
+
+.toneCard:hover {
+    border-color: var(--brand-primary);
+}
+
+.selectedTone {
+    border-color: var(--brand-primary);
+    background: var(--glow-primary);
+    color: var(--brand-primary-light);
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .header {
+        flex-direction: column;
+        gap: var(--space-3);
+        align-items: flex-start;
+    }
+}
