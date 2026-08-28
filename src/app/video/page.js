@@ -2,98 +2,166 @@
 import { useState } from 'react';
 import AppShell from '@/components/layout/AppShell';
 import { useBrand } from '@/components/providers/BrandProvider';
+import { generateImage, generateVideo } from '@/lib/ai/media';
 import styles from './video.module.css';
 
-const TEMPLATES = [
-    { id: 'intro', icon: '🎬', name: 'Brand Intro', desc: 'Professional introduction video', duration: '15s' },
-    { id: 'promo', icon: '📢', name: 'Promo Video', desc: 'Product/service promotion', duration: '30s' },
-    { id: 'story', icon: '📖', name: 'Story/Reel', desc: 'Instagram/TikTok story', duration: '15s' },
-    { id: 'testimonial', icon: '⭐', name: 'Testimonial', desc: 'Customer review showcase', duration: '20s' },
-    { id: 'slideshow', icon: '🖼️', name: 'Slideshow', desc: 'Image slideshow with music', duration: '30s' },
-    { id: 'announcement', icon: '📣', name: 'Announcement', desc: 'Event or launch announcement', duration: '15s' },
-];
-
 export default function VideoPage() {
-    const { brand } = useBrand();
-    const [selectedTemplate, setSelectedTemplate] = useState(null);
-    const [title, setTitle] = useState('');
-    const [subtitle, setSubtitle] = useState('');
-    const [bgColor, setBgColor] = useState(brand?.colors?.[0] || '#6366f1');
-    const [textColor, setTextColor] = useState('#ffffff');
+  const { brand } = useBrand();
+  const [prompt, setPrompt] = useState('');
+  const [negativePrompt, setNegativePrompt] = useState('');
+  const [mode, setMode] = useState('image');
+  const [imageProvider, setImageProvider] = useState('pollinations');
+  const [videoSeconds, setVideoSeconds] = useState(5);
+  const [comfyBaseUrl, setComfyBaseUrl] = useState('http://127.0.0.1:8188');
+  const [width, setWidth] = useState(1024);
+  const [height, setHeight] = useState(1024);
 
-    if (!brand) {
-        return (
-            <AppShell pageTitle="Video Studio">
-                <div className={styles.empty}><div className={styles.emptyIcon}>🎬</div><h2>Setup your brand first</h2></div>
-            </AppShell>
-        );
+  const [loading, setLoading] = useState(false);
+  const [resultImage, setResultImage] = useState('');
+  const [resultNote, setResultNote] = useState('');
+  const [error, setError] = useState('');
+
+  const handleGenerate = async () => {
+    if (!prompt.trim() || loading) return;
+    setLoading(true);
+    setError('');
+    setResultNote('');
+
+    try {
+      if (mode === 'image') {
+        const data = await generateImage({
+          prompt: `${prompt}\nBrand context: ${brand?.name || ''} ${brand?.tagline || ''}`.trim(),
+          negativePrompt,
+          provider: imageProvider,
+          width,
+          height,
+          comfyBaseUrl,
+        });
+
+        if (data.imageUrl) {
+          setResultImage(data.imageUrl);
+          setResultNote('✅ تم إنشاء صورة جديدة بالذكاء الاصطناعي.');
+        } else {
+          setResultNote(data.message || 'تم إرسال مهمة التوليد إلى ComfyUI.');
+        }
+      } else {
+        const data = await generateVideo({
+          prompt: `${prompt}\nBrand style: ${brand?.tone || ''}`.trim(),
+          imageUrl: resultImage,
+          provider: 'comfyui',
+          seconds: videoSeconds,
+          comfyBaseUrl,
+        });
+        setResultNote(data.message || 'تم إرسال مهمة الفيديو إلى ComfyUI.');
+      }
+    } catch (e) {
+      setError(e.message || 'Generation failed');
+    } finally {
+      setLoading(false);
     }
+  };
 
+  if (!brand) {
     return (
-        <AppShell pageTitle="Video Studio">
-            <div className={styles.page}>
-                <div className={styles.header}>
-                    <div><h2 className={styles.title}>Video Studio</h2><p className={styles.subtitle}>Create branded videos with templates</p></div>
+      <AppShell pageTitle="AI Media Studio">
+        <div className={styles.empty}><div className={styles.emptyIcon}>🎬</div><h2>Setup your brand first</h2></div>
+      </AppShell>
+    );
+  }
+
+  return (
+    <AppShell pageTitle="AI Media Studio">
+      <div className={styles.page}>
+        <div className={styles.header}>
+          <div>
+            <h2 className={styles.title}>AI Media Studio</h2>
+            <p className={styles.subtitle}>No templates — generate professional image/video from scratch using AI</p>
+          </div>
+        </div>
+
+        <div className={styles.layout}>
+          <div className={styles.formPanel}>
+            <div className={styles.modeRow}>
+              <button className={`${styles.modeBtn} ${mode === 'image' ? styles.active : ''}`} onClick={() => setMode('image')}>🖼️ Image</button>
+              <button className={`${styles.modeBtn} ${mode === 'video' ? styles.active : ''}`} onClick={() => setMode('video')}>🎥 Video</button>
+            </div>
+
+            <div className={styles.formGroup}>
+              <label>Prompt</label>
+              <textarea
+                rows={6}
+                value={prompt}
+                onChange={(e) => setPrompt(e.target.value)}
+                placeholder="اكتب وصف دقيق جداً: المنتج، الإضاءة، العدسة، الحركة، المود، الأسلوب السينمائي..."
+              />
+            </div>
+
+            <div className={styles.formGroup}>
+              <label>Negative Prompt</label>
+              <textarea
+                rows={3}
+                value={negativePrompt}
+                onChange={(e) => setNegativePrompt(e.target.value)}
+                placeholder="blurry, low quality, artifacts, bad anatomy, watermark ..."
+              />
+            </div>
+
+            {mode === 'image' && (
+              <>
+                <div className={styles.formGroup}>
+                  <label>Image Provider</label>
+                  <select value={imageProvider} onChange={(e) => setImageProvider(e.target.value)}>
+                    <option value="pollinations">Pollinations (Free Hosted)</option>
+                    <option value="comfyui">ComfyUI (Local Pro)</option>
+                  </select>
                 </div>
 
-                {!selectedTemplate ? (
-                    <>
-                        <h3 className={styles.sectionTitle}>Choose a Template</h3>
-                        <div className={styles.templateGrid}>
-                            {TEMPLATES.map(t => (
-                                <div key={t.id} className={styles.templateCard} onClick={() => setSelectedTemplate(t)}>
-                                    <div className={styles.templateIcon}>{t.icon}</div>
-                                    <h4>{t.name}</h4>
-                                    <p>{t.desc}</p>
-                                    <span className={styles.duration}>{t.duration}</span>
-                                </div>
-                            ))}
-                        </div>
-                    </>
-                ) : (
-                    <div className={styles.editorLayout}>
-                        <div className={styles.previewPanel}>
-                            <div className={styles.videoPreview} style={{ background: bgColor, color: textColor }}>
-                                {brand?.logo && <img src={brand.logo} alt="Logo" className={styles.previewLogo} />}
-                                <h2 style={{ color: textColor }}>{title || 'Your Title'}</h2>
-                                <p style={{ color: textColor, opacity: 0.8 }}>{subtitle || 'Subtitle text'}</p>
-                                <span className={styles.brandWatermark}>{brand.name}</span>
-                            </div>
-                            <div className={styles.timeline}>
-                                <div className={styles.timelineBar}>
-                                    <div className={styles.playhead} style={{ left: '10%' }} />
-                                </div>
-                                <span className={styles.timeLabel}>00:00 / {selectedTemplate.duration}</span>
-                            </div>
-                        </div>
+                <div className={styles.inline2}>
+                  <div className={styles.formGroup}>
+                    <label>Width</label>
+                    <input type="number" value={width} onChange={(e) => setWidth(Number(e.target.value) || 1024)} />
+                  </div>
+                  <div className={styles.formGroup}>
+                    <label>Height</label>
+                    <input type="number" value={height} onChange={(e) => setHeight(Number(e.target.value) || 1024)} />
+                  </div>
+                </div>
+              </>
+            )}
 
-                        <div className={styles.settingsPanel}>
-                            <button className={styles.backBtn} onClick={() => setSelectedTemplate(null)}>← Back to Templates</button>
-                            <h3>{selectedTemplate.icon} {selectedTemplate.name}</h3>
-                            <div className={styles.formGroup}>
-                                <label>Title Text</label>
-                                <input value={title} onChange={e => setTitle(e.target.value)} placeholder="Main title" />
-                            </div>
-                            <div className={styles.formGroup}>
-                                <label>Subtitle</label>
-                                <input value={subtitle} onChange={e => setSubtitle(e.target.value)} placeholder="Subtitle" />
-                            </div>
-                            <div className={styles.formGroup}>
-                                <label>Background</label>
-                                <input type="color" value={bgColor} onChange={e => setBgColor(e.target.value)} />
-                            </div>
-                            <div className={styles.formGroup}>
-                                <label>Text Color</label>
-                                <input type="color" value={textColor} onChange={e => setTextColor(e.target.value)} />
-                            </div>
-                            <button className={styles.btnPrimary}>
-                                🎬 Generate Video (FFmpeg)
-                            </button>
-                            <p className={styles.note}>FFmpeg.wasm will render the video client-side. No upload needed.</p>
-                        </div>
-                    </div>
-                )}
+            {mode === 'video' && (
+              <div className={styles.formGroup}>
+                <label>Duration (seconds)</label>
+                <input type="number" min={3} max={12} value={videoSeconds} onChange={(e) => setVideoSeconds(Number(e.target.value) || 5)} />
+              </div>
+            )}
+
+            <div className={styles.formGroup}>
+              <label>ComfyUI Base URL (for Pro local generation)</label>
+              <input value={comfyBaseUrl} onChange={(e) => setComfyBaseUrl(e.target.value)} placeholder="http://127.0.0.1:8188" />
             </div>
-        </AppShell>
-    );
+
+            <button className={styles.btnPrimary} onClick={handleGenerate} disabled={loading || !prompt.trim()}>
+              {loading ? '⏳ Generating...' : mode === 'image' ? '✨ Generate AI Image' : '🚀 Queue AI Video Generation'}
+            </button>
+
+            {!!error && <div className={styles.error}>⚠️ {error}</div>}
+            {!!resultNote && <div className={styles.note}>{resultNote}</div>}
+          </div>
+
+          <div className={styles.previewPanel}>
+            <h3>Preview</h3>
+            {resultImage ? (
+              <img src={resultImage} alt="AI generated" className={styles.previewImage} />
+            ) : (
+              <div className={styles.placeholder}>
+                <span>Generated result will appear here</span>
+                <p>Tip: اكتب prompt احترافي يحتوي (subject + style + camera + lighting + mood + composition)</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </AppShell>
+  );
 }
